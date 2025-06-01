@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revista Digital UNAD: Proyecto de Vida - Familia López</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary-dark: #0B2D4A; /* Azul oscuro */
+            --color-secondary-light: #E6E0FF; /* Lavanda claro */
+            --color-accent-lime: #DFFF00; /* Verde lima */
+            --color-background: #FFFFFF;
+            --color-text-dark: #1A202C;
+            --color-text-light: #F7FAFC;
+            --font-primary: 'Montserrat', sans-serif;
+            --font-secondary: 'Lato', sans-serif;
+            --page-width: 816px; 
+            --page-height: 1056px; 
+        }
+
+        body {
+            font-family: var(--font-secondary);
+            line-height: 1.7;
+            margin: 0;
+            padding: 20px 0;
+            background-color: #e0e0e0;
+            color: var(--color-text-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .magazine-wrapper {
+            width: var(--page-width);
+            margin: 0 auto;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            background-color: var(--color-background);
+        }
+
+        .magazine-container {
+            width: 100%;
+            min-height: var(--page-height);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .page-content-area {
+            min-height: calc(var(--page-height) - 60px);
+            overflow-y: auto;
+        }
+
+        .page {
+            display: none;
+            flex-direction: column;
+            box-sizing: border-box;
+            padding: 30px 40px;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        /* --- ESTILOS DE PORTADA (Página 1) --- */
+        #page1 {
+            background-color: var(--color-background);
+            flex-direction: row;
+            padding: 0;
+            min-height: var(--page-height);
+        }
+
+        .cover-left-panel {
+            background-color: var(--color-background);
+            width: 45%;
+            padding: 50px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .unad-logo-cover {
+            max-width: 150px;
+            margin-bottom: 20px;
+        }
+
+        .cover-title {
+            font-family: var(--font-primary);
+            font-size: 3.8rem;
+            font-weight: 900;
+            color: var(--color-primary-dark);
+            text-transform: uppercase;
+            line-height: 1;
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            align-self: flex-start;
+            margin-left: -30px;
+            max-height: 600px;
+        }
+
+        .cover-stay-connected {
+            font-family: var(--font-primary);
+            font-size: 1.4em;
+            color: var(--color-primary-dark);
+            margin-top: auto;
+        }
+
+        .cover-right-panel {
+            width: 55%;
+            position: relative;
+            background-image: url('https://i.ibb.co/vC0qVS6q/Generated-Image-June-01-2025-12-29-AM.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .cover-edition-box {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            background-color: var(--color-primary-dark);
+            color: var(--color-text-light);
+            padding: 20px 25px;
+            font-family: var(--font-primary);
+            border-radius: 4px;
+        }
+        .cover-edition-box p { margin: 0; font-size: 1em; }
+        .cover-edition-box span.date { font-size: 1.6em; font-weight: 700; display: block; }
+        .cover-edition-box span.course { font-size: 1.1em; display: block; margin-top: 5px; opacity: 0.9;}
+
+
+        .cover-logo-placeholder {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--color-background);
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        }
+
+        /* --- ESTILOS TABLA DE CONTENIDOS (Página 2) --- */
+        #page2 {
+            background-color: var(--color-background);
+        }
+        #page2 h2.table-of-contents-title {
+            font-family: var(--font-primary);
+            font-size: 2.2em;
+            color: var(--color-primary-dark);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .toc-item {
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--font-secondary);
+            font-size: 1.3em;
+            color: var(--color-primary-dark);
+            padding: 12px 0;
+            border-bottom: 1px solid var(--color-secondary-light);
+            cursor: pointer;
+        }
+        .toc-item:hover { color: #6e8efb; }
+        .toc-page-number { color: #A0AEC0; }
+
+        .intro-message {
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+        .intro-message img.profile-pic {
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid var(--color-secondary-light);
+            justify-self: center;
+            margin-bottom: 10px;
+        }
+         .intro-message .text-content p { font-size: 1em; line-height: 1.8; margin-bottom:10px; }
+        .intro-signature {
+            margin-top: 10px;
+            font-weight: bold;
+            color: var(--color-primary-dark);
+            text-align: center;
+        }
+        @media (min-width: 600px) {
+            .intro-message {
+                grid-template-columns: auto 1fr;
+                text-align: left;
+            }
+            .intro-message img.profile-pic {
+                justify-self: start;
+                margin-bottom: 0;
+            }
+            .intro-signature {
+                text-align: left;
+            }
+        }
+
+        /* --- ESTILOS DE PÁGINAS DE CONTENIDO GENERAL --- */
+        .content-page {
+            /* Contenido de estilos */
+        }
+        .content-page h2 {
+            font-family: var(--font-primary);
+            color: var(--color-primary-dark);
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--color-accent-lime);
+            padding-bottom: 8px;
+        }
+         .content-page h3 {
+            font-family: var(--font-primary);
+            color: var(--color-primary-dark);
+            font-size: 1.4em;
+            margin-top: 25px;
+            margin-bottom: 12px;
+        }
+        .content-page p, .content-page li {
+            margin-bottom: 12px;
+            text-align: justify;
+            font-size: 0.95em;
+        }
+        .content-page blockquote {
+            border-left: 4px solid var(--color-primary-dark);
+            margin: 15px 0;
+            padding: 8px 15px;
+            background-color: #f0f3f7;
+            font-style: italic;
+            font-size: 0.9em;
+        }
+        .content-page .citation {
+            font-size: 0.85em;
+            color: #718096;
+            display: block;
+            margin-top: 3px;
+            text-align: right;
+        }
+        .content-image {
+            max-width: 60%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .ishikawa-container {
+            text-align: center;
+            width: 100%; 
+            margin: 15px 0; 
+        }
+        .ishikawa-container img {
+            max-width: 100%; 
+            width: 100%; 
+            height: auto;
+            border: 1px solid #ccc;
+            display: block; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 3px; 
+            background-color: #fff;
+        }
+         .ishikawa-container a {
+            display: block;
+            text-align: center;
+            margin-top: 8px;
+            color: var(--color-primary-dark);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        #page5.content-page {
+            padding: 20px 15px; 
+        }
+
+
+        /* --- NAVEGACIÓN ENTRE PÁGINAS --- */
+        .navigation-tabs {
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+            background-color: var(--color-primary-dark);
+            width: 100%;
+            z-index: 100;
+            box-shadow: 0 -1px 3px rgba(0,0,0,0.15);
+            flex-wrap: wrap;
+        }
+        .tab-button {
+            background-color: transparent;
+            color: var(--color-text-light);
+            border: none;
+            padding: 8px 12px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 0.85em;
+            font-family: var(--font-primary);
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border-bottom: 2px solid transparent;
+            margin: 2px;
+        }
+        .tab-button.active-tab, .tab-button:hover {
+            color: var(--color-accent-lime);
+            border-bottom: 2px solid var(--color-accent-lime);
+        }
+
+        /* --- PIE DE PÁGINA CON LOGO UNAD --- */
+        .magazine-footer {
+            background-color: #f0f3f7;
+            padding: 15px 30px;
+            text-align: center;
+            border-top: 1px solid #d1d5db;
+        }
+        .unad-logo-footer {
+            max-height: 45px;
+            margin-bottom: 8px;
+        }
+        .magazine-footer p {
+            margin: 3px 0;
+            font-size: 0.8em;
+            color: #4B5563;
+        }
+
+        @media (max-width: 850px) {
+            .magazine-wrapper { width: 95%; }
+            .cover-title { font-size: 3.2rem; }
+            .content-page { padding: 25px 30px; }
+            #page5.content-page { padding: 15px 20px; }
+        }
+
+        @media (max-width: 600px) {
+            .magazine-wrapper { width: 100%; box-shadow: none; }
+            body { padding: 0; }
+
+            #page1 { flex-direction: column; min-height: auto; }
+            .cover-left-panel, .cover-right-panel { width: 100%; }
+            .cover-left-panel { min-height: auto; padding: 20px; text-align:center;}
+            .unad-logo-cover { margin: 0 auto 15px auto; max-width:100px;}
+            .cover-right-panel { min-height: 45vh; }
+            .cover-title {
+                font-size: 2.2rem;
+                writing-mode: horizontal-tb;
+                transform: rotate(0deg);
+                align-self: center;
+                margin-left: 0;
+                text-align: center;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+            .cover-stay-connected { font-size: 1.1em; text-align: center; }
+            .cover-edition-box { top: 15px; left: 15px; padding: 12px;}
+            .cover-edition-box p { font-size: 0.85em; }
+            .cover-edition-box span.date { font-size: 1.3em; }
+            .cover-edition-box span.course { font-size: 1em; }
+            .cover-logo-placeholder { top: 15px; right: 15px; width:35px; height:35px;}
+
+            #page2, .content-page { padding: 20px; min-height: auto; }
+             #page5.content-page { padding: 15px; } 
+            #page2 h2.table-of-contents-title { font-size: 1.7em; }
+            .toc-item { font-size: 1.05em; padding: 8px 0;}
+            .intro-message img.profile-pic { width: 90px; height: 90px;}
+
+            .content-page h2 {font-size: 1.5em;}
+            .content-page h3 {font-size: 1.15em;}
+            .content-page p, .content-page li { font-size: 0.88em; }
+            .content-image { max-width: 90%; }
+
+            .tab-button {font-size: 0.7em; padding: 8px 5px;}
+            .navigation-tabs { padding: 5px 0; }
+            .unad-logo-footer { max-height: 35px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="magazine-wrapper">
+        <div class="magazine-container">
+            <div class="page-content-area">
+
+                <!-- PÁGINA 1: Portada -->
+                <div class="page active" id="page1">
+                    <div class="cover-left-panel">
+                        <img src="https://i.ibb.co/nqtkDNZ9/Logo-unad-color.png" alt="Logo UNAD" class="unad-logo-cover"> <!-- LOGO UNAD ACTUALIZADO -->
+                        <h1 class="cover-title">Proyecto de Vida</h1>
+                        <div class="cover-stay-connected">
+                            <p>Estudio de Caso:<br>Familia López</p>
+                        </div>
+                    </div>
+                    <div class="cover-right-panel">
+                        <!-- Imagen de fondo actualizada en CSS -->
+                        <div class="cover-edition-box">
+                            <p>Carlos Herrera Meza</p>
+                            <span class="date">[Fecha Actual]</span>
+                            <span class="course">Materia: Proyecto de Vida</span>
+                        </div>
+                        <div class="cover-logo-placeholder"></div>
+                    </div>
+                </div>
+
+                <!-- PÁGINA 2: Tabla de Contenidos / Mensaje Inicial -->
+                <div class="page" id="page2">
+                    <h2 class="table-of-contents-title">Índice</h2>
+                    <div class="toc-item" onclick="goToPageById('page3')">
+                        <span>1. Análisis del Caso Familia López</span>
+                        <span class="toc-page-number">03</span>
+                    </div>
+                    <div class="toc-item" onclick="goToPageById('page4')">
+                        <span>2. Respuestas a Interrogantes</span>
+                        <span class="toc-page-number">04</span>
+                    </div>
+                    <div class="toc-item" onclick="goToPageById('page5')">
+                        <span>3. Diagrama de Ishikawa</span>
+                        <span class="toc-page-number">05</span>
+                    </div>
+
+                    <div class="intro-message">
+                        <!-- <img src="URL_CARLOS_HERRERA_MEZA.jpg" alt="Carlos Herrera Meza" class="profile-pic"> -->
+                        <div class="text-content">
+                            <p>
+                                Este trabajo presenta un análisis detallado del caso de la Familia López, explorando las complejidades de su dinámica actual. A través de la identificación de problemáticas, el análisis de factores contribuyentes y la propuesta de soluciones, buscamos ofrecer una perspectiva integral. Adicionalmente, se abordan interrogantes clave basados en material de estudio relevante para enriquecer la comprensión del tema en el marco de la materia "Proyecto de Vida".
+                            </p>
+                            <p class="intro-signature">
+                                Carlos Herrera Meza<br>
+                                Estudiante UNAD
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PÁGINA 3: Análisis del Caso Familia López -->
+                <div class="page content-page" id="page3">
+                    <h2>1. Análisis del Caso de la Familia López</h2>
+                    
+                    <img src="https://images.pexels.com/photos/764681/pexels-photo-764681.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Familia interactuando" class="content-image">
+
+                    <h3>Identificación de la Problemática</h3>
+                    <p>
+                        Bueno, al analizar el caso de la familia López, se ve que tienen varios problemas, principalmente por cómo manejan el tiempo. Esto les causa mucho estrés y hace que no se comuniquen ni se sientan muy conectados entre ellos. Los papás, Laura y Carlos, trabajan un montón, hasta los fines de semana, y eso les quita tiempo para estar con la familia. 
+                    </p>
+                    <blockquote>
+                        Según lo que leí de Cudris-Torres et al. (2020), "los diversos factores medioambientales o brindados por la experiencia que influyen en el desarrollo, en especial los contextos importantes como la familia" (p. 2), son importantes.
+                        <span class="citation">(Cudris-Torres et al., 2020, p. 2)</span>
+                    </blockquote>
+                    <p>
+                        Aquí, la presión del trabajo de los papás es como un factor del ambiente que afecta cómo funciona la familia. Además, los hijos, Sofía y Diego, tienen muchísimas actividades después del colegio, y aunque eso podría ser bueno para ellos, también hace que la familia no tenga mucho tiempo junta y se estresen más. 
+                    </p>
+                    <blockquote>
+                         Esto se parece a lo que dicen Agudelo Grajales & Ramírez López (2023), que "la familia, o lo que solemos llamar así, dejó de ser un refugio para sus integrantes y menos para los jóvenes, pues no logra ser el espacio de consuelo de las situaciones cotidianas por la creciente conflictividad y la implacabilidad, por ejemplo, del mundo del trabajo" (p. 14).
+                        <span class="citation">(Agudelo Grajales & Ramírez López, 2023, p. 14)</span>
+                    </blockquote>
+                    <p>Cuando no pasan tiempo juntos, es más difícil que se comuniquen bien y se sientan unidos, que son cosas básicas para que la familia esté bien.</p>
+                    
+                    <h3>Factores que Contribuyen a la Problemática</h3>
+                    <p>
+                        La forma en que la familia López se organiza por dentro también tiene problemas. 
+                    </p>
+                    <blockquote>
+                         Cudris-Torres et al. (2020) explican que "la estructura familiar no es una unidad observable en sí misma, se requiere que haya intercambios... dinamizando a la familia como una unidad relacional e interdependiente, podremos averiguar su estructura interna, y en ella sus reglas, normas valores... y el tipo de comunicación que la familia utiliza para el reparto de las mismas" (p. 50).
+                        <span class="citation">(Cudris-Torres et al., 2020, p. 50)</span>
+                    </blockquote>
+                    <p>
+                        En esta familia, como no tienen tiempo, es difícil que tengan esos "intercambios" que necesitan, y eso crea tensiones y problemas. Aunque sí tienen cosas buenas, como que los papás se apoyan y se quieren, y quieren a sus hijos, la presión de los horarios y todas las cosas que cada uno tiene que hacer hace difícil que puedan tener un plan de vida familiar donde todos estén juntos y de acuerdo.
+                    </p>
+                    <blockquote>
+                        La vida de ahora, con tantos "cambios instantáneos" como dicen (Agudelo Grajales & Ramírez López, 2023, p. 1), puede ser muy rápida y hacer que a las familias les cueste adaptarse y encontrar momentos para estar de verdad juntos.
+                        <span class="citation">(Agudelo Grajales & Ramírez López, 2023, p. 1)</span>
+                    </blockquote>
+                     <p>Así que el problema no es solo de organizar la agenda, sino de cómo las cosas de afuera y cómo manejan ellos su tiempo y sus emociones afectan cómo se llevan y si están bien como grupo.</p>
+
+                    <img src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Personas trabajando en equipo" class="content-image"> 
+
+                    <h3>Propuesta de Alternativas de Solución</h3>
+                    <h4>Alternativa 1: Implementación de una Rutina Familiar Estructurada y Consensuada</h4>
+                    <p>
+                        Una idea para ayudar a la familia López sería que intenten organizar una rutina familiar que sea clara y que todos estén de acuerdo, donde lo más importante sea pasar tiempo bueno juntos. Para esto, Laura y Carlos tendrían que ver cómo pueden manejar mejor sus trabajos para tener más tiempo libre, y también revisar si Sofía y Diego necesitan tantas actividades después del colegio, para que les quede tiempo para descansar y divertirse en familia. 
+                    </p>
+                    <blockquote>
+                        Como dicen Agudelo Grajales & Ramírez López (2023), "todos necesitamos encontrar sentido y podemos hallarlo si volvemos a lo fundamental: el encuentro, el amor, eso moviliza todo y rompe los ismos que construimos" (p. 24).
+                        <span class="citation">(Agudelo Grajales & Ramírez López, 2023, p. 24)</span>
+                    </blockquote>
+                    <p>
+                        Poner horarios fijos para cenar juntos, hacer cosas divertidas los fines de semana, o hasta tener pequeñas costumbres diarias como hablar un ratito antes de dormir, podría ayudar a que se sientan más unidos y se comuniquen mejor. 
+                    </p>
+                    <blockquote>
+                        La idea es tratar de recuperar ese "espíritu de encuentro" (Agudelo Grajales & Ramírez López, 2023, p. 24) que parece que han perdido un poco.
+                        <span class="citation">(Agudelo Grajales & Ramírez López, 2023, p. 24)</span>
+                    </blockquote>
+                    
+                    <h4>Alternativa 2: Mejora de la Comunicación y Conexión Emocional</h4>
+                    <p>
+                        Otra cosa que podrían hacer es trabajar en mejorar cómo se comunican y cómo se sienten el uno con el otro, para bajar las tensiones que tienen. Podrían crear momentos donde todos puedan hablar de lo que necesitan y sienten, sin que nadie los critique. 
+                    </p>
+                    <blockquote>
+                        La familia, como un sistema, necesita "intercambios directos" y una buena comunicación para que funcione bien (Bronfenbrenner, 1987, como se citó en Cudris-Torres et al., 2020, p. 51).
+                        <span class="citation">(Bronfenbrenner, 1987, como se citó en Cudris-Torres et al., 2020, p. 51)</span>
+                    </blockquote>
+                    <p>
+                        Si les cuesta mucho comunicarse, quizás podrían pensar en ir a un terapeuta familiar. Además, tratar de encontrar "el encuentro desde lo que nos une" (Agudelo Grajales & Ramírez López, 2023, p. 24) les podría ayudar a descubrir cosas que les gusten a todos y planear actividades juntos. 
+                    </p>
+                     <blockquote>
+                        Esto haría que se sientan más unidos y ayudaría a que todos tengan un "desarrollo humano saludable" (Cudris-Torres et al., 2020, p. 2).
+                        <span class="citation">(Cudris-Torres et al., 2020, p. 2)</span>
+                    </blockquote>
+                </div>
+
+                <!-- PÁGINA 4: Respuestas a Interrogantes -->
+                <div class="page content-page" id="page4">
+                    <h2>2. Respuestas a Interrogantes</h2>
+                    
+                    <img src="https://images.pexels.com/photos/3184306/pexels-photo-3184306.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Discusión o debate" class="content-image">
+
+                    <h3>¿A partir de las lecturas como comprendo el concepto de familia? ¿Que caracteriza a las familias según las lecturas realizadas?</h3>
+                    <p>
+                        Bueno, según lo que he estado leyendo, la familia es como el primer grupo donde aprendemos lo esencial, No es solo la gente con la que vivimos, sino que es donde se forman las primeras ideas de cómo relacionarnos y los valores. 
+                    </p>
+                    <blockquote>
+                        Por ejemplo, López & Vesga (2009) dicen que el entorno familiar "es donde, en primera instancia, se establecen prácticas educativas, que se convierten en punto de referencia para niños y niñas" (p. 787).
+                        <span class="citation">(López & Vesga, 2009, p. 787)</span>
+                    </blockquote>
+                    <p>
+                        Y Chairez et al. (2020) también mencionan que la familia "es el primer pilar de formación de las personas". Lo que caracteriza a las familias, según estas lecturas, es que tienen una estructura, formas de comunicarse, y roles, como explica Medellín Fontes et al. (2012), y que todo esto influye mucho en cómo crecemos.
+                         <span class="citation">(Chairez et al., 2020; Medellín Fontes et al., 2012)</span>
+                    </p>
+
+                    <h3>¿Qué influencia tiene el entorno familiar en los hábitos y plan de vida de una persona? ¿Cómo ha evolucionado las dinámicas familiares en la contemporaneidad según los cambios identificados en las lecturas?</h3>
+                    <p>
+                        El entorno familiar influye mucho en nuestros hábitos y en lo que queremos hacer con nuestra vida. 
+                    </p>
+                    <blockquote>
+                        Como dice Quintín (1988, p.13, citado por Chairez et al., 2020) "Los alumnos con éxito escolar disponen de un clima familiar que ayuda y fomenta la actividad exploratoria, que orienta hacia la tarea, que estimula la evaluación de las consecuencias del comportamiento propio, que estimula la verificación y comprobación de sus acciones, que da con frecuencia feed-back positivos, ofrece índices e informaciones específicos y pertinentes, y plantea más preguntas y cuestiones."
+                        <span class="citation">(Quintín, 1988, citado por Chairez et al., 2020)</span>
+                    </blockquote>
+                    <p>
+                        Pero lo anterior no siempre fue de esa manera, las dinámicas familiares han cambiado bastante; antes era más común el modelo tradicional, pero ahora, como dice Martínez (2012, citado por Chairez et al., 2020), hay mucha "creciente diversidad familiar, las nuevas estructuras y sus funcionamientos". Además, el estrés del trabajo de los papás, como se ve en el estudio de Ramos Armijos et al. (2024), afecta mucho cómo se vive en familia hoy en día, haciendo que a veces sea más difícil encontrar tiempo para estar juntos.
+                        <span class="citation">(Martínez, 2012, citado por Chairez et al., 2020; Ramos Armijos et al., 2024)</span>
+                    </p>
+
+                    <h3>¿De qué manera puede alguien fortalecer el vínculo afectivo con la familia y crear una red de apoyo mutuo que posibilite el fortalecimiento y el logro de los proyectos de vida individuales y colectivos?</h3>
+                    <p>
+                        Para fortalecer el vínculo afectivo y crear una red de apoyo, es clave la comunicación y el tiempo de calidad. 
+                    </p>
+                    <blockquote>
+                        Como dicen Casas Blanco & Guzmán García (2021), "En la dinámica de una familia influyen los valores y pautas de conducta que son presentados, especialmente, por los padres" (p. 35), así que los papás tienen un rol importante en enseñar cómo apoyarse.
+                        <span class="citation">(Casas Blanco & Guzmán García, 2021, p. 35)</span>
+                    </blockquote>
+                     <blockquote>
+                        También, Medellín Fontes et al. (2012) mencionan que "Las redes de apoyo familiar y las redes de amigos son las que más apoyo social aportaron a la mayoría de los tipos de familia", lo que significa que contar con la familia y amigos es fundamental.
+                        <span class="citation">(Medellín Fontes et al., 2012)</span>
+                    </blockquote>
+                    <p>
+                        Pasar tiempo juntos, hablar de los problemas y apoyarse en los proyectos de cada uno ayuda mucho a que todos se sientan más fuertes y puedan lograr sus metas.
+                    </p>
+
+                    <h3>¿Qué aspectos y prácticas cotidianas suelen ser importantes para fortalecer las relaciones y fomentar el vínculo familiar?</h3>
+                    <p>
+                        Hay varias cosas que se pueden hacer todos los días para que la familia esté más unida.
+                    </p>
+                     <blockquote>
+                        Por ejemplo, tener "prácticas educativas, que se convierten en punto de referencia para niños y niñas" en casa, como explican López & Vesga (2009, p. 787), donde se enseñen valores y se apoye a los hijos.
+                        <span class="citation">(López & Vesga, 2009, p. 787)</span>
+                    </blockquote>
+                    <p>
+                         También, es importante el "apoyo emocional", como se menciona en el estudio de Chairez et al. (2020), que es básicamente estar ahí para los demás y mostrar cariño.
+                         <span class="citation">(Chairez et al., 2020)</span>
+                    </p>
+                    <blockquote>
+                        Casas Blanco & Guzmán García (2021) sugieren "Construir una familia humana y solidaria. Educar a sus miembros como seres humanos respetuosos de sí mismos, de los demás y de su entorno" (p. 7), lo que implica enseñar respeto y promover valores. 
+                        <span class="citation">(Casas Blanco & Guzmán García, 2021, p. 7)</span>
+                    </blockquote>
+                    <p>
+                        Cosas simples como cenar juntos, ayudarse con las tareas o simplemente conversar pueden hacer una gran diferencia.
+                    </p>
+                </div>
+
+                <!-- PÁGINA 5: Diagrama Ishikawa -->
+                <div class="page content-page" id="page5">
+                    <h2>3. Diagrama de Ishikawa</h2>
+                    <p>
+                        El siguiente Diagrama de Causa y Efecto (Ishikawa) ha sido construido para visualizar de manera estructurada los múltiples factores que contribuyen a la problemática central experimentada por la Familia López: la desorganización del tiempo y sus consecuencias en la dinámica familiar, el estrés y las dificultades de comunicación. Las "espinas" principales representan categorías de causas que, a su vez, se desglosan en causas más específicas.
+                    </p>
+                    <div class="ishikawa-container">
+                        <img src="https://i.ibb.co/GQ6xtB9t/diagrama-Ishikawa.png" alt="Diagrama de Ishikawa - Familia López"> <!-- DIAGRAMA ISHIKAWA ACTUALIZADO -->
+                    </div>
+                    <p>
+                        Este diagrama permite identificar áreas clave para la intervención, mostrando cómo las demandas laborales, la gestión de actividades extracurriculares, los patrones de comunicación y la falta de estrategias de organización del tiempo familiar se interconectan, afectando el bienestar general del núcleo familiar.
+                    </p>
+                </div>
+            </div> 
+
+            <div class="navigation-tabs">
+                <button class="tab-button active-tab" onclick="goToPageById('page1')">Portada</button>
+                <button class="tab-button" onclick="goToPageById('page2')">Índice</button>
+                <button class="tab-button" onclick="goToPageById('page3')">Análisis</button>
+                <button class="tab-button" onclick="goToPageById('page4')">Interrogantes</button>
+                <button class="tab-button" onclick="goToPageById('page5')">Ishikawa</button>
+            </div>
+        </div> 
+
+        <footer class="magazine-footer">
+            <img src="https://i.ibb.co/nqtkDNZ9/Logo-unad-color.png" alt="Logo UNAD" class="unad-logo-footer"> <!-- LOGO UNAD ACTUALIZADO -->
+            <p class="footer-year">&copy; [Año Actual] - Universidad Nacional Abierta y a Distancia UNAD</p>
+            <p>Carlos Herrera Meza - Proyecto de Vida</p>
+        </footer>
+    </div> 
+
+    <script>
+        const pages = document.querySelectorAll('.page-content-area .page');
+        const tabButtons = document.querySelectorAll('.navigation-tabs .tab-button');
+        let currentPageId = 'page1'; 
+
+        function showPage(pageIdToShow) {
+            currentPageId = pageIdToShow;
+            pages.forEach(page => {
+                page.classList.toggle('active', page.id === pageIdToShow);
+            });
+            tabButtons.forEach(button => {
+                const targetPage = button.getAttribute('onclick').match(/'([^']+)'/)[1];
+                button.classList.toggle('active-tab', targetPage === pageIdToShow);
+            });
+            document.querySelector('.page-content-area').scrollTo(0, 0);
+        }
+
+        function goToPageById(pageId) {
+            showPage(pageId);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const coverLogo = document.querySelector('.unad-logo-cover');
+            if (coverLogo) {
+                coverLogo.onerror = function() { this.style.display='none'; }; 
+            }
+            const footerLogo = document.querySelector('.unad-logo-footer');
+            if (footerLogo) {
+                footerLogo.onerror = function() { this.style.display='none'; }; 
+            }
+            const dateSpan = document.querySelector('.cover-edition-box span.date');
+            if (dateSpan) {
+                const today = new Date();
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                dateSpan.textContent = today.toLocaleDateString('es-ES', options);
+            }
+            const yearSpanFooter = document.querySelector('.magazine-footer p.footer-year');
+            if(yearSpanFooter){
+                yearSpanFooter.textContent = `© ${new Date().getFullYear()} - Universidad Nacional Abierta y a Distancia UNAD`;
+            }
+
+            showPage(currentPageId);
+        });
+    </script>
+
+</body>
+</html>
